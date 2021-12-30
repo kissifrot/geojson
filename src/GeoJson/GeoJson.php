@@ -177,7 +177,7 @@ abstract class GeoJson implements \JsonSerializable, JsonUnserializable
      * @todo Decide if multiple CRS or BoundingBox instances should override a
      *       previous value or be ignored
      */
-    protected function setOptionalConstructorArgs(array $args)
+    protected function setOptionalConstructorArgs(array $args): void
     {
         foreach ($args as $arg) {
             if ($arg instanceof CoordinateReferenceSystem) {

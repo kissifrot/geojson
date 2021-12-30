@@ -2,6 +2,9 @@
 
 namespace GeoJson\Geometry;
 
+use GeoJson\BoundingBox;
+use GeoJson\CoordinateReferenceSystem\CoordinateReferenceSystem;
+
 /**
  * LinearRing is a special kind of LineString geometry object.
  *
@@ -17,9 +20,9 @@ class LinearRing extends LineString
      * Constructor.
      *
      * @param float[][]|Point[] $positions
-     * @param CoordinateResolutionSystem|BoundingBox $arg,...
+     * @param CoordinateReferenceSystem|BoundingBox $arg,...
      */
-    public function __construct(array $positions)
+    public function __construct(array $positions, ...$arg)
     {
         if (count($positions) < 4) {
             throw new \InvalidArgumentException('LinearRing requires at least four positions');

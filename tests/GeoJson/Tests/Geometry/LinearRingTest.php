@@ -5,12 +5,13 @@ namespace GeoJson\Tests\Geometry;
 use GeoJson\Geometry\LinearRing;
 use GeoJson\Geometry\Point;
 use GeoJson\Tests\BaseGeoJsonTest;
+use GeoJson\Geometry\LineString;
 
 class LinearRingTest extends BaseGeoJsonTest
 {
     public function createSubjectWithExtraArguments(array $extraArgs)
     {
-        $class = new \ReflectionClass('GeoJson\Geometry\LinearRing');
+        $class = new \ReflectionClass(LinearRing::class);
 
         return $class->newInstanceArgs(array_merge(
             array(array(array(1, 1), array(2, 2), array(3, 3), array(1, 1))),
@@ -18,17 +19,15 @@ class LinearRingTest extends BaseGeoJsonTest
         ));
     }
 
-    public function testIsSubclassOfLineString()
+    public function testIsSubclassOfLineString(): void
     {
-        $this->assertTrue(is_subclass_of('GeoJson\Geometry\LinearRing', 'GeoJson\Geometry\LineString'));
+        $this->assertTrue(is_subclass_of(LinearRing::class, LineString::class));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage LinearRing requires at least four positions
-     */
-    public function testConstructorShouldRequireAtLeastFourPositions()
+    public function testConstructorShouldRequireAtLeastFourPositions(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('LinearRing requires at least four positions');
         new LinearRing(array(
             array(1, 1),
             array(2, 2),
@@ -36,12 +35,10 @@ class LinearRingTest extends BaseGeoJsonTest
         ));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage LinearRing requires the first and last positions to be equivalent
-     */
-    public function testConstructorShouldRequireEquivalentFirstAndLastPositions()
+    public function testConstructorShouldRequireEquivalentFirstAndLastPositions(): void
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('LinearRing requires the first and last positions to be equivalent');
         new LinearRing(array(
             array(1, 1),
             array(2, 2),
@@ -50,7 +47,10 @@ class LinearRingTest extends BaseGeoJsonTest
         ));
     }
 
-    public function testConstructorShouldAcceptEquivalentPointObjectsAndPositionArrays()
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testConstructorShouldAcceptEquivalentPointObjectsAndPositionArrays(): void
     {
         new LinearRing(array(
             array(1, 1),
@@ -60,7 +60,7 @@ class LinearRingTest extends BaseGeoJsonTest
         ));
     }
 
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $coordinates = array(array(1, 1), array(2, 2), array(3, 3), array(1, 1));
         $linearRing = new LinearRing($coordinates);

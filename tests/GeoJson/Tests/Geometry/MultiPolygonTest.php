@@ -6,12 +6,13 @@ use GeoJson\GeoJson;
 use GeoJson\Geometry\MultiPolygon;
 use GeoJson\Geometry\Polygon;
 use GeoJson\Tests\BaseGeoJsonTest;
+use GeoJson\Geometry\Geometry;
 
 class MultiPolygonTest extends BaseGeoJsonTest
 {
     public function createSubjectWithExtraArguments(array $extraArgs)
     {
-        $class = new \ReflectionClass('GeoJson\Geometry\MultiPolygon');
+        $class = new \ReflectionClass(MultiPolygon::class);
 
         return $class->newInstanceArgs(array_merge(
             array(array(
@@ -22,12 +23,12 @@ class MultiPolygonTest extends BaseGeoJsonTest
         ));
     }
 
-    public function testIsSubclassOfGeometry()
+    public function testIsSubclassOfGeometry(): void
     {
-        $this->assertTrue(is_subclass_of('GeoJson\Geometry\MultiPolygon', 'GeoJson\Geometry\Geometry'));
+        $this->assertTrue(is_subclass_of(MultiPolygon::class, Geometry::class));
     }
 
-    public function testConstructionFromPolygonObjects()
+    public function testConstructionFromPolygonObjects(): void
     {
         $multiPolygon1 = new MultiPolygon(array(
             new Polygon(array(array(array(0, 0), array(0, 4), array(4, 4), array(4, 0), array(0, 0)))),
@@ -42,7 +43,7 @@ class MultiPolygonTest extends BaseGeoJsonTest
         $this->assertSame($multiPolygon1->getCoordinates(), $multiPolygon2->getCoordinates());
     }
 
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $coordinates = array(
             array(array(array(0, 0), array(0, 4), array(4, 4), array(4, 0), array(0, 0))),
@@ -65,7 +66,7 @@ class MultiPolygonTest extends BaseGeoJsonTest
      * @dataProvider provideJsonDecodeAssocOptions
      * @group functional
      */
-    public function testUnserialization($assoc)
+    public function testUnserialization($assoc): void
     {
         $json = <<<'JSON'
 {
@@ -85,12 +86,12 @@ JSON;
             array(array(array(1, 1), array(1, 3), array(3, 3), array(3, 1), array(1, 1))),
         );
 
-        $this->assertInstanceOf('GeoJson\Geometry\MultiPolygon', $multiPolygon);
+        $this->assertInstanceOf(MultiPolygon::class, $multiPolygon);
         $this->assertSame('MultiPolygon', $multiPolygon->getType());
         $this->assertSame($expectedCoordinates, $multiPolygon->getCoordinates());
     }
 
-    public function provideJsonDecodeAssocOptions()
+    public function provideJsonDecodeAssocOptions(): array
     {
         return array(
             'assoc=true' => array(true),

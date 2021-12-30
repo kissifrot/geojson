@@ -6,12 +6,13 @@ use GeoJson\GeoJson;
 use GeoJson\Geometry\MultiPoint;
 use GeoJson\Geometry\Point;
 use GeoJson\Tests\BaseGeoJsonTest;
+use GeoJson\Geometry\Geometry;
 
 class MultiPointTest extends BaseGeoJsonTest
 {
     public function createSubjectWithExtraArguments(array $extraArgs)
     {
-        $class = new \ReflectionClass('GeoJson\Geometry\MultiPoint');
+        $class = new \ReflectionClass(MultiPoint::class);
 
         return $class->newInstanceArgs(array_merge(
             array(array(
@@ -22,12 +23,12 @@ class MultiPointTest extends BaseGeoJsonTest
         ));
     }
 
-    public function testIsSubclassOfGeometry()
+    public function testIsSubclassOfGeometry(): void
     {
-        $this->assertTrue(is_subclass_of('GeoJson\Geometry\MultiPoint', 'GeoJson\Geometry\Geometry'));
+        $this->assertTrue(is_subclass_of(MultiPoint::class, Geometry::class));
     }
 
-    public function testConstructionFromPointObjects()
+    public function testConstructionFromPointObjects(): void
     {
         $multiPoint1 = new MultiPoint(array(
             new Point(array(1, 1)),
@@ -42,7 +43,7 @@ class MultiPointTest extends BaseGeoJsonTest
         $this->assertSame($multiPoint1->getCoordinates(), $multiPoint2->getCoordinates());
     }
 
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $coordinates = array(array(1, 1), array(2, 2));
         $multiPoint = new MultiPoint($coordinates);
@@ -61,7 +62,7 @@ class MultiPointTest extends BaseGeoJsonTest
      * @dataProvider provideJsonDecodeAssocOptions
      * @group functional
      */
-    public function testUnserialization($assoc)
+    public function testUnserialization($assoc): void
     {
         $json = <<<'JSON'
 {
@@ -78,12 +79,12 @@ JSON;
 
         $expectedCoordinates = array(array(1, 1), array(2, 2));
 
-        $this->assertInstanceOf('GeoJson\Geometry\MultiPoint', $multiPoint);
+        $this->assertInstanceOf(MultiPoint::class, $multiPoint);
         $this->assertSame('MultiPoint', $multiPoint->getType());
         $this->assertSame($expectedCoordinates, $multiPoint->getCoordinates());
     }
 
-    public function provideJsonDecodeAssocOptions()
+    public function provideJsonDecodeAssocOptions(): array
     {
         return array(
             'assoc=true' => array(true),

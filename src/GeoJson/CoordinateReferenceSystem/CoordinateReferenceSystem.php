@@ -28,7 +28,7 @@ abstract class CoordinateReferenceSystem implements \JsonSerializable, JsonUnser
      *
      * @return array
      */
-    public function getProperties()
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -38,7 +38,7 @@ abstract class CoordinateReferenceSystem implements \JsonSerializable, JsonUnser
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -46,7 +46,7 @@ abstract class CoordinateReferenceSystem implements \JsonSerializable, JsonUnser
     /**
      * @see http://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array(
             'type' => $this->type,
@@ -97,8 +97,5 @@ abstract class CoordinateReferenceSystem implements \JsonSerializable, JsonUnser
      * @return CoordinateReferenceSystem
      * @throws \BadMethodCallException
      */
-    protected static function jsonUnserializeFromProperties($properties)
-    {
-        throw new \BadMethodCallException(sprintf('%s must be overridden in a child class', __METHOD__));
-    }
+    abstract protected static function jsonUnserializeFromProperties($properties);
 }

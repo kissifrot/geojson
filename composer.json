@@ -1,22 +1,23 @@
 {
-    "name": "jmikola/geojson",
+    "name": "kissifrot/geojson",
     "type": "library",
     "description": "GeoJSON implementation for PHP",
     "keywords": ["geo", "geospatial", "geojson"],
-    "homepage": "https://github.com/jmikola/geojson",
+    "homepage": "https://github.com/kissifrot/geojson",
     "license": "MIT",
     "authors": [
-        { "name": "Jeremy Mikola", "email": "jmikola@gmail.com" }
+        { "name": "Jeremy Mikola", "email": "jmikola@gmail.com" },
+        { "name": "Philippe Villiers", "email": "kissifrot+gh@gmail.com" }
     ],
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=7.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~3.7"
+        "phpunit/phpunit": "^7.0 || ^9.0",
+        "ext-json": "*"
     },
     "autoload": {
-        "psr-0": { "GeoJson\\": "src/" },
-        "classmap": [ "stubs/" ]
+        "psr-0": { "GeoJson\\": "src/" }
     },
     "extra": {
         "branch-alias": {

@@ -2,6 +2,8 @@
 
 namespace GeoJson\Feature;
 
+use GeoJson\BoundingBox;
+use GeoJson\CoordinateReferenceSystem\CoordinateReferenceSystem;
 use GeoJson\GeoJson;
 
 /**
@@ -23,9 +25,9 @@ class FeatureCollection extends GeoJson implements \Countable, \IteratorAggregat
      * Constructor.
      *
      * @param Feature[] $features
-     * @param CoordinateResolutionSystem|BoundingBox $arg,...
+     * @param CoordinateReferenceSystem|BoundingBox $arg,...
      */
-    public function __construct(array $features)
+    public function __construct(array $features, ...$arg)
     {
         foreach ($features as $feature) {
             if ( ! $feature instanceof Feature) {
@@ -35,17 +37,15 @@ class FeatureCollection extends GeoJson implements \Countable, \IteratorAggregat
 
         $this->features = array_values($features);
 
-        if (func_num_args() > 1) {
-            $this->setOptionalConstructorArgs(array_slice(func_get_args(), 1));
-        }
+        $this->setOptionalConstructorArgs($arg);
     }
 
     /**
      * @see http://php.net/manual/en/countable.count.php
      */
-    public function count()
+    public function count(): int
     {
-        return count($this->features);
+        return \count($this->features);
     }
 
     /**
@@ -53,7 +53,7 @@ class FeatureCollection extends GeoJson implements \Countable, \IteratorAggregat
      *
      * @return Feature[]
      */
-    public function getFeatures()
+    public function getFeatures(): array
     {
         return $this->features;
     }
@@ -61,7 +61,7 @@ class FeatureCollection extends GeoJson implements \Countable, \IteratorAggregat
     /**
      * @see http://php.net/manual/en/iteratoraggregate.getiterator.php
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->features);
     }
@@ -69,7 +69,7 @@ class FeatureCollection extends GeoJson implements \Countable, \IteratorAggregat
     /**
      * @see http://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_merge(
             parent::jsonSerialize(),

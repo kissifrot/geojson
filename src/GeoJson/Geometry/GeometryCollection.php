@@ -2,6 +2,9 @@
 
 namespace GeoJson\Geometry;
 
+use GeoJson\BoundingBox;
+use GeoJson\CoordinateReferenceSystem\CoordinateReferenceSystem;
+
 /**
  * Collection of Geometry objects.
  *
@@ -21,9 +24,9 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      * Constructor.
      *
      * @param Geometry[] $geometries
-     * @param CoordinateResolutionSystem|BoundingBox $arg,...
+     * @param CoordinateReferenceSystem|BoundingBox $arg,...
      */
-    public function __construct(array $geometries)
+    public function __construct(array $geometries, ...$arg)
     {
         foreach ($geometries as $geometry) {
             if ( ! $geometry instanceof Geometry) {
@@ -33,17 +36,15 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
 
         $this->geometries = array_values($geometries);
 
-        if (func_num_args() > 1) {
-            $this->setOptionalConstructorArgs(array_slice(func_get_args(), 1));
-        }
+        $this->setOptionalConstructorArgs($arg);
     }
 
     /**
      * @see http://php.net/manual/en/countable.count.php
      */
-    public function count()
+    public function count(): int
     {
-        return count($this->geometries);
+        return \count($this->geometries);
     }
 
     /**
@@ -51,7 +52,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
      *
      * @return Geometry[]
      */
-    public function getGeometries()
+    public function getGeometries(): array
     {
         return $this->geometries;
     }
@@ -59,7 +60,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     /**
      * @see http://php.net/manual/en/iteratoraggregate.getiterator.php
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->geometries);
     }
@@ -67,7 +68,7 @@ class GeometryCollection extends Geometry implements \Countable, \IteratorAggreg
     /**
      * @see http://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_merge(
             parent::jsonSerialize(),

@@ -4,18 +4,20 @@ namespace GeoJson\Tests\CoordinateReferenceSystem;
 
 use GeoJson\CoordinateReferenceSystem\CoordinateReferenceSystem;
 use GeoJson\CoordinateReferenceSystem\Named;
+use GeoJson\Exception\UnserializationException;
+use PHPUnit\Framework\TestCase;
 
-class NamedTest extends \PHPUnit_Framework_TestCase
+class NamedTest extends TestCase
 {
-    public function testIsSubclassOfCoordinateReferenceSystem()
+    public function testIsSubclassOfCoordinateReferenceSystem(): void
     {
         $this->assertTrue(is_subclass_of(
-            'GeoJson\CoordinateReferenceSystem\Named',
-            'GeoJson\CoordinateReferenceSystem\CoordinateReferenceSystem'
+            Named::class,
+            CoordinateReferenceSystem::class
         ));
     }
 
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $crs = new Named('urn:ogc:def:crs:OGC:1.3:CRS84');
 
@@ -35,7 +37,7 @@ class NamedTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideJsonDecodeAssocOptions
      * @group functional
      */
-    public function testUnserialization($assoc)
+    public function testUnserialization($assoc): void
     {
         $json = <<<'JSON'
 {
@@ -51,12 +53,12 @@ JSON;
 
         $expectedProperties = array('name' => 'urn:ogc:def:crs:OGC:1.3:CRS84');
 
-        $this->assertInstanceOf('GeoJson\CoordinateReferenceSystem\Named', $crs);
+        $this->assertInstanceOf(Named::class, $crs);
         $this->assertSame('name', $crs->getType());
         $this->assertSame($expectedProperties, $crs->getProperties());
     }
 
-    public function provideJsonDecodeAssocOptions()
+    public function provideJsonDecodeAssocOptions(): array
     {
         return array(
             'assoc=true' => array(true),
@@ -64,21 +66,18 @@ JSON;
         );
     }
 
-    /**
-     * @expectedException GeoJson\Exception\UnserializationException
-     * @expectedExceptionMessage Named CRS expected "properties" property of type array or object
-     */
-    public function testUnserializationShouldRequirePropertiesArrayOrObject()
+    public function testUnserializationShouldRequirePropertiesArrayOrObject(): void
     {
+        $this->expectException(UnserializationException::class);
+        $this->expectExceptionMessage('Named CRS expected "properties" property of type array or object');
         CoordinateReferenceSystem::jsonUnserialize(array('type' => 'name', 'properties' => null));
     }
 
-    /**
-     * @expectedException GeoJson\Exception\UnserializationException
-     * @expectedExceptionMessage Named CRS expected "properties.name" property of type string
-     */
-    public function testUnserializationShouldRequireNameProperty()
+    public function testUnserializationShouldRequireNameProperty(): void
     {
+
+        $this->expectException(UnserializationException::class);
+        $this->expectExceptionMessage('Named CRS expected "properties.name" property of type string');
         CoordinateReferenceSystem::jsonUnserialize(array('type' => 'name', 'properties' => array()));
     }
 }

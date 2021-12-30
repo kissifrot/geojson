@@ -2,11 +2,13 @@
 
 namespace GeoJson\Tests;
 
-abstract class BaseGeoJsonTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class BaseGeoJsonTest extends TestCase
 {
     abstract public function createSubjectWithExtraArguments(array $extraArgs);
 
-    public function testConstructorShouldScanExtraArgumentsForCrsAndBoundingBox()
+    public function testConstructorShouldScanExtraArgumentsForCrsAndBoundingBox(): void
     {
         $box = $this->getMockBoundingBox();
         $crs = $this->getMockCoordinateReferenceSystem();
@@ -37,18 +39,18 @@ abstract class BaseGeoJsonTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($crs, $sut->getCrs());
     }
 
-    public function testSerializationWithCrsAndBoundingBox()
+    public function testSerializationWithCrsAndBoundingBox(): void
     {
         $box = $this->getMockBoundingBox();
         $crs = $this->getMockCoordinateReferenceSystem();
 
         $box->expects($this->any())
             ->method('jsonSerialize')
-            ->will($this->returnValue('boundingBox'));
+            ->will($this->returnValue(array('boundingBox')));
 
         $crs->expects($this->any())
             ->method('jsonSerialize')
-            ->will($this->returnValue('coordinateReferenceSystem'));
+            ->will($this->returnValue(array('coordinateReferenceSystem')));
 
         $sut = $this->createSubjectWithExtraArguments(array($box, $crs));
 
@@ -56,8 +58,8 @@ abstract class BaseGeoJsonTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('bbox', $json);
         $this->assertArrayHasKey('crs', $json);
-        $this->assertSame('boundingBox', $json['bbox']);
-        $this->assertSame('coordinateReferenceSystem', $json['crs']);
+        $this->assertSame(array('boundingBox'), $json['bbox']);
+        $this->assertSame(array('coordinateReferenceSystem'), $json['crs']);
     }
 
     protected function getMockBoundingBox()

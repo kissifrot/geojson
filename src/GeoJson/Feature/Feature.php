@@ -2,6 +2,8 @@
 
 namespace GeoJson\Feature;
 
+use GeoJson\BoundingBox;
+use GeoJson\CoordinateReferenceSystem\CoordinateReferenceSystem;
 use GeoJson\GeoJson;
 use GeoJson\Geometry\Geometry;
 
@@ -35,20 +37,16 @@ class Feature extends GeoJson
     /**
      * Constructor.
      *
-     * @param Geometry $geometry
-     * @param array $properties
      * @param mixed $id
-     * @param CoordinateResolutionSystem|BoundingBox $arg,...
+     * @param CoordinateReferenceSystem|BoundingBox $arg,...
      */
-    public function __construct(Geometry $geometry = null, array $properties = array(), $id = null)
+    public function __construct(Geometry $geometry = null, array $properties = array(), $id = null, ...$arg)
     {
         $this->geometry = $geometry;
         $this->properties = $properties;
         $this->id = $id;
 
-        if (func_num_args() > 3) {
-            $this->setOptionalConstructorArgs(array_slice(func_get_args(), 3));
-        }
+        $this->setOptionalConstructorArgs($arg);
     }
 
     /**
@@ -56,7 +54,7 @@ class Feature extends GeoJson
      *
      * @return Geometry
      */
-    public function getGeometry()
+    public function getGeometry(): ?Geometry
     {
         return $this->geometry;
     }
@@ -74,9 +72,9 @@ class Feature extends GeoJson
     /**
      * Return the properties for this Feature object.
      *
-     * @return array
+     * @return array|null
      */
-    public function getProperties()
+    public function getProperties(): ?array
     {
         return $this->properties;
     }
@@ -84,7 +82,7 @@ class Feature extends GeoJson
     /**
      * @see http://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $json = parent::jsonSerialize();
 

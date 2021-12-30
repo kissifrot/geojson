@@ -2,6 +2,9 @@
 
 namespace GeoJson\Geometry;
 
+use GeoJson\BoundingBox;
+use GeoJson\CoordinateReferenceSystem\CoordinateReferenceSystem;
+
 /**
  * MultiPoint geometry object.
  *
@@ -18,12 +21,12 @@ class MultiPoint extends Geometry
      * Constructor.
      *
      * @param float[][]|Point[] $positions
-     * @param CoordinateResolutionSystem|BoundingBox $arg,...
+     * @param CoordinateReferenceSystem|BoundingBox $arg,...
      */
-    public function __construct(array $positions)
+    public function __construct(array $positions, ...$arg)
     {
         $this->coordinates = array_map(
-            function($point) {
+            static function($point) {
                 if ( ! $point instanceof Point) {
                     $point = new Point($point);
                 }
@@ -33,8 +36,6 @@ class MultiPoint extends Geometry
             $positions
         );
 
-        if (func_num_args() > 1) {
-            $this->setOptionalConstructorArgs(array_slice(func_get_args(), 1));
-        }
+        $this->setOptionalConstructorArgs($arg);
     }
 }

@@ -2,10 +2,14 @@
 
 namespace GeoJson\Tests\Geometry;
 
-class GeometryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+use GeoJson\Geometry\Geometry;
+use GeoJson\GeoJson;
+
+class GeometryTest extends TestCase
 {
-    public function testIsSubclassOfGeoJson()
+    public function testIsSubclassOfGeoJson(): void
     {
-        $this->assertTrue(is_subclass_of('GeoJson\Geometry\Geometry', 'GeoJson\GeoJson'));
+        $this->assertTrue(is_subclass_of(Geometry::class, GeoJson::class));
     }
 }

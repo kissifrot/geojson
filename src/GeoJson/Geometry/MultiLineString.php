@@ -2,6 +2,9 @@
 
 namespace GeoJson\Geometry;
 
+use GeoJson\BoundingBox;
+use GeoJson\CoordinateReferenceSystem\CoordinateReferenceSystem;
+
 /**
  * MultiLineString geometry object.
  *
@@ -18,12 +21,12 @@ class MultiLineString extends Geometry
      * Constructor.
      *
      * @param float[][][]|LineString[] $lineStrings
-     * @param CoordinateResolutionSystem|BoundingBox $arg,...
+     * @param CoordinateReferenceSystem|BoundingBox $arg,...
      */
-    public function __construct(array $lineStrings)
+    public function __construct(array $lineStrings, ...$arg)
     {
         $this->coordinates = array_map(
-            function($lineString) {
+            static function($lineString) {
                 if ( ! $lineString instanceof LineString) {
                     $lineString = new LineString($lineString);
                 }
@@ -33,8 +36,6 @@ class MultiLineString extends Geometry
             $lineStrings
         );
 
-        if (func_num_args() > 1) {
-            $this->setOptionalConstructorArgs(array_slice(func_get_args(), 1));
-        }
+        $this->setOptionalConstructorArgs($arg);
     }
 }

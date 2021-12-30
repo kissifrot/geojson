@@ -54,7 +54,7 @@ class BoundingBox implements \JsonSerializable, JsonUnserializable
      *
      * @return float[]
      */
-    public function getBounds()
+    public function getBounds(): array
     {
         return $this->bounds;
     }
@@ -62,7 +62,7 @@ class BoundingBox implements \JsonSerializable, JsonUnserializable
     /**
      * @see http://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->bounds;
     }
@@ -70,7 +70,7 @@ class BoundingBox implements \JsonSerializable, JsonUnserializable
     /**
      * @see JsonUnserializable::jsonUnserialize()
      */
-    final public static function jsonUnserialize($json)
+    final public static function jsonUnserialize($json): BoundingBox
     {
         if ( ! is_array($json)) {
             throw UnserializationException::invalidValue('BoundingBox', $json, 'array');

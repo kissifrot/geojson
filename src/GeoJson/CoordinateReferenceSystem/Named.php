@@ -14,14 +14,9 @@ class Named extends CoordinateReferenceSystem
 {
     protected $type = 'name';
 
-    /**
-     * Constructor.
-     *
-     * @param string $name
-     */
-    public function __construct($name)
+    public function __construct(string $name)
     {
-        $this->properties = array('name' => (string) $name);
+        $this->properties = array('name' => $name);
     }
 
     /**

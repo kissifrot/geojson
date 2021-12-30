@@ -20,12 +20,12 @@ class Linked extends CoordinateReferenceSystem
      * @param string $href
      * @param string $type
      */
-    public function __construct($href, $type = null)
+    public function __construct(string $href, ?string $type = null)
     {
-        $this->properties = array('href' => (string) $href);
+        $this->properties = array('href' => $href);
 
         if (isset($type)) {
-            $this->properties['type'] = (string) $type;
+            $this->properties['type'] = $type;
         }
     }
 

@@ -1,8 +1,8 @@
 # GeoJson PHP Library
 
-[![Build Status](https://travis-ci.org/jmikola/geojson.png?branch=master)](https://travis-ci.org/jmikola/geojson)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jmikola/geojson/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jmikola/geojson/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/jmikola/geojson/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jmikola/geojson/?branch=master)
+[![CircleCI](https://circleci.com/gh/kissifrot/geojson/tree/master.svg?style=svg)](https://circleci.com/gh/kissifrot/geojson/tree/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kissifrot/geojson/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kissifrot/geojson/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/kissifrot/geojson/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kissifrot/geojson/?branch=master)
 
 This library implements the
 [GeoJSON format specification](http://www.geojson.org/geojson-spec.html).
@@ -15,11 +15,11 @@ Classes also exist for bounding boxes and coordinate reference systems.
 ## Installation
 
 The library is published as a
-[package](https://packagist.org/packages/jmikola/geojson) and is installable via
+[package](https://packagist.org/packages/kissifrot/geojson) and is installable via
 [Composer](http://getcomposer.org/):
 
 ```
-$ composer require "jmikola/geojson=~1.0"
+$ composer require "kissifrot/geojson=~2.0"
 ```
 
 ## More Resources

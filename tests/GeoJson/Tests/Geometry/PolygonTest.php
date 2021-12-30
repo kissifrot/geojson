@@ -6,12 +6,13 @@ use GeoJson\GeoJson;
 use GeoJson\Geometry\LinearRing;
 use GeoJson\Geometry\Polygon;
 use GeoJson\Tests\BaseGeoJsonTest;
+use GeoJson\Geometry\Geometry;
 
 class PolygonTest extends BaseGeoJsonTest
 {
     public function createSubjectWithExtraArguments(array $extraArgs)
     {
-        $class = new \ReflectionClass('GeoJson\Geometry\Polygon');
+        $class = new \ReflectionClass(Polygon::class);
 
         return $class->newInstanceArgs(array_merge(
             array(array(
@@ -22,12 +23,12 @@ class PolygonTest extends BaseGeoJsonTest
         ));
     }
 
-    public function testIsSubclassOfGeometry()
+    public function testIsSubclassOfGeometry(): void
     {
-        $this->assertTrue(is_subclass_of('GeoJson\Geometry\Polygon', 'GeoJson\Geometry\Geometry'));
+        $this->assertTrue(is_subclass_of(Polygon::class, Geometry::class));
     }
 
-    public function testConstructionFromLinearRingObjects()
+    public function testConstructionFromLinearRingObjects(): void
     {
         $polygon1 = new Polygon(array(
             new LinearRing(array(array(0, 0), array(0, 4), array(4, 4), array(4, 0), array(0, 0))),
@@ -42,7 +43,7 @@ class PolygonTest extends BaseGeoJsonTest
         $this->assertSame($polygon1->getCoordinates(), $polygon2->getCoordinates());
     }
 
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $coordinates = array(
             array(array(0, 0), array(0, 4), array(4, 4), array(4, 0), array(0, 0)),
@@ -65,7 +66,7 @@ class PolygonTest extends BaseGeoJsonTest
      * @dataProvider provideJsonDecodeAssocOptions
      * @group functional
      */
-    public function testUnserialization($assoc)
+    public function testUnserialization($assoc): void
     {
         $json = <<<'JSON'
 {
@@ -85,12 +86,12 @@ JSON;
             array(array(1, 1), array(1, 3), array(3, 3), array(3, 1), array(1, 1)),
         );
 
-        $this->assertInstanceOf('GeoJson\Geometry\Polygon', $polygon);
+        $this->assertInstanceOf(Polygon::class, $polygon);
         $this->assertSame('Polygon', $polygon->getType());
         $this->assertSame($expectedCoordinates, $polygon->getCoordinates());
     }
 
-    public function provideJsonDecodeAssocOptions()
+    public function provideJsonDecodeAssocOptions(): array
     {
         return array(
             'assoc=true' => array(true),

@@ -6,12 +6,13 @@ use GeoJson\GeoJson;
 use GeoJson\Geometry\LineString;
 use GeoJson\Geometry\MultiLineString;
 use GeoJson\Tests\BaseGeoJsonTest;
+use GeoJson\Geometry\Geometry;
 
 class MultiLineStringTest extends BaseGeoJsonTest
 {
     public function createSubjectWithExtraArguments(array $extraArgs)
     {
-        $class = new \ReflectionClass('GeoJson\Geometry\MultiLineString');
+        $class = new \ReflectionClass(MultiLineString::class);
 
         return $class->newInstanceArgs(array_merge(
             array(array(
@@ -22,12 +23,12 @@ class MultiLineStringTest extends BaseGeoJsonTest
         ));
     }
 
-    public function testIsSubclassOfGeometry()
+    public function testIsSubclassOfGeometry(): void
     {
-        $this->assertTrue(is_subclass_of('GeoJson\Geometry\MultiLineString', 'GeoJson\Geometry\Geometry'));
+        $this->assertTrue(is_subclass_of(MultiLineString::class, Geometry::class));
     }
 
-    public function testConstructionFromLineStringObjects()
+    public function testConstructionFromLineStringObjects(): void
     {
         $multiLineString1 = new MultiLineString(array(
             new LineString(array(array(1, 1), array(2, 2))),
@@ -42,7 +43,7 @@ class MultiLineStringTest extends BaseGeoJsonTest
         $this->assertSame($multiLineString1->getCoordinates(), $multiLineString2->getCoordinates());
     }
 
-    public function testSerialization()
+    public function testSerialization(): void
     {
         $coordinates = array(
             array(array(1, 1), array(2, 2)),
@@ -65,7 +66,7 @@ class MultiLineStringTest extends BaseGeoJsonTest
      * @dataProvider provideJsonDecodeAssocOptions
      * @group functional
      */
-    public function testUnserialization($assoc)
+    public function testUnserialization($assoc): void
     {
         $json = <<<'JSON'
 {
@@ -85,12 +86,12 @@ JSON;
             array(array(3, 3), array(4, 4)),
         );
 
-        $this->assertInstanceOf('GeoJson\Geometry\MultiLineString', $multiLineString);
+        $this->assertInstanceOf(MultiLineString::class, $multiLineString);
         $this->assertSame('MultiLineString', $multiLineString->getType());
         $this->assertSame($expectedCoordinates, $multiLineString->getCoordinates());
     }
 
-    public function provideJsonDecodeAssocOptions()
+    public function provideJsonDecodeAssocOptions(): array
     {
         return array(
             'assoc=true' => array(true),
