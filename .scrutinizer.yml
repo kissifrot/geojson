@@ -3,7 +3,7 @@ filter:
 
 build:
     environment:
-        php: 7.1.12
+        php: 8.0.16
     nodes:
         analysis:
             tests:
