@@ -40,7 +40,7 @@ class Feature extends GeoJson
      * @param mixed $id
      * @param CoordinateReferenceSystem|BoundingBox $arg,...
      */
-    public function __construct(Geometry $geometry = null, array $properties = array(), $id = null, ...$arg)
+    public function __construct(Geometry $geometry = null, array $properties = array(), mixed $id = null, ...$arg)
     {
         $this->geometry = $geometry;
         $this->properties = $properties;
@@ -87,7 +87,7 @@ class Feature extends GeoJson
         $json = parent::jsonSerialize();
 
         $json['geometry'] = isset($this->geometry) ? $this->geometry->jsonSerialize() : null;
-        $json['properties'] = isset($this->properties) ? $this->properties : null;
+        $json['properties'] = $this->properties ?? null;
 
         // Ensure empty associative arrays are encoded as JSON objects
         if ($json['properties'] === array()) {

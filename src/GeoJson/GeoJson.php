@@ -61,7 +61,7 @@ abstract class GeoJson implements \JsonSerializable, JsonUnserializable
     /**
      * @see http://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $json = array('type' => $this->type);
 
@@ -113,8 +113,8 @@ abstract class GeoJson implements \JsonSerializable, JsonUnserializable
                 break;
 
             case 'Feature':
-                $geometry = isset($json['geometry']) ? $json['geometry'] : null;
-                $properties = isset($json['properties']) ? $json['properties'] : null;
+                $geometry = $json['geometry'] ?? null;
+                $properties = $json['properties'] ?? null;
 
                 if (isset($geometry) && ! is_array($geometry) && ! is_object($geometry)) {
                     throw UnserializationException::invalidProperty($type, 'geometry', $geometry, 'array or object');
@@ -126,7 +126,7 @@ abstract class GeoJson implements \JsonSerializable, JsonUnserializable
 
                 $args[] = isset($geometry) ? self::jsonUnserialize($geometry) : null;
                 $args[] = isset($properties) ? (array) $properties : null;
-                $args[] = isset($json['id']) ? $json['id'] : null;
+                $args[] = $json['id'] ?? null;
                 break;
 
             case 'FeatureCollection':

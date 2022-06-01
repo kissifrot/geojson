@@ -18,7 +18,7 @@ class Linked extends CoordinateReferenceSystem
      * Constructor.
      *
      * @param string $href
-     * @param string $type
+     * @param string|null $type
      */
     public function __construct(string $href, ?string $type = null)
     {

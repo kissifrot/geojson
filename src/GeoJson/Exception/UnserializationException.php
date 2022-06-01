@@ -15,7 +15,7 @@ class UnserializationException extends \RuntimeException implements Exception
             '%s expected value of type %s, %s given',
             $context,
             $expectedType,
-            is_object($value) ? get_class($value) : gettype($value)
+            get_debug_type($value)
         ));
     }
 
@@ -31,7 +31,7 @@ class UnserializationException extends \RuntimeException implements Exception
             $context,
             $property,
             $expectedType,
-            is_object($value) ? get_class($value) : gettype($value)
+            get_debug_type($value)
         ));
     }
 
