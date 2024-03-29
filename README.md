@@ -1,3 +1,5 @@
+## Original library jmikola/geojson is now up to date, this repository is not needed anymore
+
 # GeoJson PHP Library
 
 [![CircleCI](https://circleci.com/gh/kissifrot/geojson/tree/master.svg?style=svg)](https://circleci.com/gh/kissifrot/geojson/tree/master)
